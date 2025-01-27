@@ -761,12 +761,17 @@ class ImportAuthenticationFlowsIT extends AbstractImportIT {
 
         List<AuthenticatorConfigRepresentation> authConfig;
         authConfig = getAuthenticatorConfig(realm, "id1");
-        assertThat(authConfig, hasSize(2));
-        assertThat(authConfig.get(0).getAlias(), is("id1"));
-        assertThat(authConfig.get(0).getConfig(), hasEntry(is("defaultProvider"), is("id1")));
-        assertThat(authConfig.get(1).getAlias(), is("id1"));
-        assertThat(authConfig.get(1).getConfig(), hasEntry(is("defaultProvider"), is("id1")));
-
+        if (VersionUtil.lt(KEYCLOAK_VERSION, "26.1")) {
+            assertThat(authConfig, hasSize(2));
+            assertThat(authConfig.get(0).getAlias(), is("id1"));
+            assertThat(authConfig.get(0).getConfig(), hasEntry(is("defaultProvider"), is("id1")));
+            assertThat(authConfig.get(1).getAlias(), is("id1"));
+            assertThat(authConfig.get(1).getConfig(), hasEntry(is("defaultProvider"), is("id1")));
+        } else {
+            assertThat(authConfig, hasSize(1));
+            assertThat(authConfig.get(0).getAlias(), is("id1"));
+            assertThat(authConfig.get(0).getConfig(), hasEntry(is("defaultProvider"), is("id1")));
+        }
         authConfig = getAuthenticatorConfig(realm, "id2");
         assertThat(authConfig, hasSize(1));
         assertThat(authConfig.get(0).getAlias(), is("id2"));

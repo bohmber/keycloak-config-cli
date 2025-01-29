@@ -61,6 +61,7 @@ abstract public class AbstractImportIT extends AbstractImportTest {
                 .withEnv("KEYCLOAK_ADMIN", "admin")
                 .withEnv("KEYCLOAK_ADMIN_PASSWORD", "admin123")
                 .withEnv("QUARKUS_PROFILE", "dev")
+                .withEnv("QUARKUS_HTTP_ACCESS_LOG_ENABLED", "true")
                 .withEnv("KC_LOG_LEVEL", KEYCLOAK_LOG_LEVEL)
                 .withExtraHost("host.docker.internal", "host-gateway")
                 .waitingFor(Wait.forHttp("/"))
